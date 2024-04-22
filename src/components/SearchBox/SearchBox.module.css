@@ -1,0 +1,25 @@
+.container {
+    text-align: left;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.label {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.input {
+    font-size: 16px;
+    padding: 4px 8px;
+    width: 252px;
+    margin-right: 8px;
+}
+
+.btn {
+    height: 28px;
+    width: 84px;
+    font-size: 16px;
+}
