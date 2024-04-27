@@ -3,6 +3,8 @@ import { nanoid } from "nanoid";
 import { useId } from "react";
 import * as Yup from "yup";
 import css from "./ContactForm.module.css";
+import { useDispatch } from "react-redux";
+import { addContact } from "../../redux/contactsSlice";
 
 const phoneRegExp = /^[0-9]{3}?-[0-9]{2}?-[0-9]{2}?$/;
 
@@ -11,7 +13,7 @@ const validationSchema = Yup.object().shape({
     .min(3, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
-  phoneNumber: Yup.string()
+  number: Yup.string()
     .min(3, "Too Short!")
     .max(50, "Too Long!")
     .required("Required")
@@ -19,20 +21,25 @@ const validationSchema = Yup.object().shape({
 });
 
 const initialValues = {
+  id: "",
   name: "",
-  phoneNumber: "",
+  number: "",
 };
 
-const ContactForm = ({ addContact }) => {
+const ContactForm = () => {
+  const dispatch = useDispatch();
   const nameFieldId = useId();
   const phoneNumberFieldId = useId();
 
   const handleSubmit = (values, actions) => {
-    addContact({
+    const newContact = {
       id: nanoid(),
-      name: values.name,
-      number: values.phoneNumber,
-    });
+      name: values.name.trim(),
+      number: values.number.trim(),
+      // ...values,
+    };
+    dispatch(addContact(newContact));
+
     actions.resetForm();
   };
 
@@ -62,7 +69,7 @@ const ContactForm = ({ addContact }) => {
               Number
             </label>
             <Field
-              name="phoneNumber"
+              name="number"
               type="tel"
               placeholder="123-45-67"
               id={phoneNumberFieldId}
@@ -70,7 +77,7 @@ const ContactForm = ({ addContact }) => {
             />
             <ErrorMessage
               className={css.error}
-              name="phoneNumber"
+              name="number"
               component="span"
             />
           </div>
